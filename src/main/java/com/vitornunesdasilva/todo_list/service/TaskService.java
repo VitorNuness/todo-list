@@ -19,9 +19,14 @@ public class TaskService {
 
     List<Task> list() {
         Sort sort = Sort.by(Direction.DESC, "isComplete")
-            .and(Sort.by(Direction.ASC, "date"))
+                .and(Sort.by(Direction.ASC, "date"))
                 .and(Sort.by(Direction.DESC, "priority")
                         .and(Sort.by(Direction.ASC, "id")));
         return taskRepository.findAll(sort);
+    }
+
+    List<Task> create(Task task) {
+        taskRepository.save(task);
+        return list();
     }
 }
