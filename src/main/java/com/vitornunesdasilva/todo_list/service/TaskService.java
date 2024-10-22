@@ -29,4 +29,9 @@ public class TaskService {
         taskRepository.save(task);
         return list();
     }
+
+    List<Task> update(Task task) {
+        taskRepository.save(task);
+        return list();
+    }
 }
