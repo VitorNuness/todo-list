@@ -17,7 +17,7 @@ public class TaskService {
         this.taskRepository = taskRepository;
     }
 
-    List<Task> list() {
+    public List<Task> list() {
         Sort sort = Sort.by(Direction.DESC, "isComplete")
                 .and(Sort.by(Direction.ASC, "date"))
                 .and(Sort.by(Direction.DESC, "priority")
@@ -25,17 +25,17 @@ public class TaskService {
         return taskRepository.findAll(sort);
     }
 
-    List<Task> create(Task task) {
+    public List<Task> create(Task task) {
         taskRepository.save(task);
         return list();
     }
 
-    List<Task> update(Task task) {
+    public List<Task> update(Task task) {
         taskRepository.save(task);
         return list();
     }
 
-    List<Task> delete(Long id) {
+    public List<Task> delete(Long id) {
         taskRepository.deleteById(id);
         return list();
     }
