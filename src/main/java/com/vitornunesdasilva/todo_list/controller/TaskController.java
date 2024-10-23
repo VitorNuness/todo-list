@@ -3,6 +3,7 @@ package com.vitornunesdasilva.todo_list.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,5 +23,10 @@ public class TaskController {
     @PostMapping
     List<Task> create(@RequestBody @Valid Task task) {
         return taskService.create(task);
+    }
+
+    @GetMapping()
+    List<Task> list() {
+        return taskService.list();
     }
 }

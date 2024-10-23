@@ -6,11 +6,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 import com.vitornunesdasilva.todo_list.entity.Task;
 
 @SpringBootTest(webEnvironment=WebEnvironment.RANDOM_PORT)
+@Sql("/remove.sql")
 class TodoListApplicationTests {
 
 	@Autowired
@@ -47,4 +49,17 @@ class TodoListApplicationTests {
             .exchange()
             .expectStatus().isBadRequest();
 	}
+
+    @Test
+    @Sql("/import.sql")
+    public void testListTasks() {
+        webTestClient
+            .get()
+            .uri("/tasks")
+            .exchange()
+            .expectStatus().isOk()
+            .expectBody()
+            .jsonPath("$").isArray()
+            .jsonPath("$.length()").isEqualTo(5);
+    }
 }
