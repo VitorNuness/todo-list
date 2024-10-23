@@ -1,12 +1,13 @@
 package com.vitornunesdasilva.todo_list.entity;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "tasks")
@@ -14,16 +15,28 @@ public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotBlank
+    private String name;
+    @NotBlank
     private String description;
     private boolean isComplete;
     private int priority;
-    private Date date;
+    private LocalDate date;
 
     public Task() {
     }
 
-    public Task(Long id, String description, boolean isComplete, int priority, Date date) {
+    public Task(Long id, String name, String description, boolean isComplete, int priority, LocalDate date) {
         this.id = id;
+        this.name = name;
+        this.description = description;
+        this.isComplete = isComplete;
+        this.priority = priority;
+        this.date = date;
+    }
+
+    public Task(String name, String description, boolean isComplete, int priority, LocalDate date) {
+        this.name = name;
         this.description = description;
         this.isComplete = isComplete;
         this.priority = priority;
@@ -36,6 +49,14 @@ public class Task {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescription() {
@@ -62,11 +83,11 @@ public class Task {
         this.priority = priority;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 }
