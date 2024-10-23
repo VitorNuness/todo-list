@@ -54,12 +54,34 @@ class TodoListApplicationTests {
     @Sql("/import.sql")
     public void testListTasks() {
         webTestClient
-            .get()
+                .get()
+                .uri("/tasks")
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody()
+                .jsonPath("$").isArray()
+                .jsonPath("$.length()").isEqualTo(5);
+    }
+
+    @Test
+    @Sql("/import.sql")
+    public void testUpdateTaskSuccess()
+    {
+        var task = new Task(9999L, "task atualizada", "description task 1", false, 1, LocalDate.now());
+
+        webTestClient
+            .put()
             .uri("/tasks")
+            .bodyValue(task)
             .exchange()
-            .expectStatus().isOk()
+                .expectStatus().isOk()
             .expectBody()
             .jsonPath("$").isArray()
-            .jsonPath("$.length()").isEqualTo(5);
+            .jsonPath("$.length()").isEqualTo(5)
+            .jsonPath("$[4].name").isEqualTo(task.getName())
+            .jsonPath("$[4].description").isEqualTo(task.getDescription())
+            .jsonPath("$[4].complete").isEqualTo(task.isComplete())
+            .jsonPath("$[4].priority").isEqualTo(task.getPriority())
+            .jsonPath("$[4].date").isEqualTo(task.getDate().toString());
     }
 }
