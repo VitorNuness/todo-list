@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.vitornunesdasilva.todo_list.entity.Task;
 import com.vitornunesdasilva.todo_list.service.TaskService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("tasks")
 public class TaskController {
@@ -18,7 +20,7 @@ public class TaskController {
     private TaskService taskService;
 
     @PostMapping
-    List<Task> create(@RequestBody Task task) {
+    List<Task> create(@RequestBody @Valid Task task) {
         return taskService.create(task);
     }
 }
