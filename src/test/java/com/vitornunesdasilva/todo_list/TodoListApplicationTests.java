@@ -92,10 +92,23 @@ class TodoListApplicationTests {
         var task = new Task(9999L, "", "", false, 1, LocalDate.now());
 
         webTestClient
-            .put()
-            .uri("/tasks")
-            .bodyValue(task)
-            .exchange()
+                .put()
+                .uri("/tasks")
+                .bodyValue(task)
+                .exchange()
                 .expectStatus().isBadRequest();
+    }
+
+    @Test
+    @Sql("/import.sql")
+    public void testDeleteTaskSuccessfull() {
+        webTestClient
+            .delete()
+            .uri("/tasks/9999")
+            .exchange()
+            .expectStatus().isOk()
+            .expectBody()
+            .jsonPath("$").isArray()
+                .jsonPath("$.length()").isEqualTo(4);
     }
 }
