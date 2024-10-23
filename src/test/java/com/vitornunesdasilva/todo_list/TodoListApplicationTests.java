@@ -84,4 +84,18 @@ class TodoListApplicationTests {
             .jsonPath("$[4].priority").isEqualTo(task.getPriority())
             .jsonPath("$[4].date").isEqualTo(task.getDate().toString());
     }
+
+    @Test
+    @Sql("/import.sql")
+    public void testUpdateTaskFailure()
+    {
+        var task = new Task(9999L, "", "", false, 1, LocalDate.now());
+
+        webTestClient
+            .put()
+            .uri("/tasks")
+            .bodyValue(task)
+            .exchange()
+                .expectStatus().isBadRequest();
+    }
 }
